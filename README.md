@@ -1,2 +1,22 @@
-# translation
-DB translation to Laravel 5
+## Laravel DB translation
+
+
+## Installation
+
+Require this package in your composer.json and run composer update (or run `composer require barryvdh/laravel-translation-manager` directly):
+
+    "composer require xdroidteam/translation"
+    or
+    "xdroidteam/translation": "dev-master"
+
+After updating composer, add the ServiceProvider to the providers array in config/app.php
+
+    'Xdroidteam\Translation\TranslationServiceProvider',
+
+You need to run the migrations for this package.
+
+    $ php artisan vendor:publish --provider="Xdroid\Translation\TranslationServiceProvider" --tag=migrations
+    $ php artisan migrate
+
+
+Routes are added in the ServiceProvider, available at `http://yourdomain.com/translations`
