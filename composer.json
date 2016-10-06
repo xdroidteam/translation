@@ -1,10 +1,10 @@
 {
-    "name": "xdroid/translation",
+    "name": "xdroidteam/translation",
     "description": "trans() from db",
     "authors": [
         {
-            "name": "Tamas Tanai",
-            "email": "thomas.tanai@gmail.com"
+            "name": "Xdroid KFT.",
+            "email": "info@xdroid.com"
         }
     ],
     "minimum-stability": "dev",
