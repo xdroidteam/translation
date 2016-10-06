@@ -2,7 +2,7 @@
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](http://choosealicense.com/licenses/mit/)
 
 ### Change the standard Laravel file-based translation to DB based.
-![Screenshot](https://raw.githubusercontent.com/doatech/etc/master/translationUI.png)
+![Screenshot](https://raw.githubusercontent.com/xdroidteam/images/master/translationUI.png)
 ## Installation
 
 Require this package in your **composer.json** and run composer update:
