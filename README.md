@@ -1,8 +1,15 @@
 # Laravel DB Translation
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](http://choosealicense.com/licenses/mit/)
 
+
 ### Change the standard Laravel file-based translation to DB based.
+### Key features
+1. Easy GUI for modifying translations
+2. The new keys will be **automatically added** to the DB
+3. It can easily import **lang** files to the DB
+
 ![Screenshot](https://raw.githubusercontent.com/xdroidteam/images/master/translationUI.png)
+
 ## Installation
 
 Require this package in your **composer.json** and run composer update:
