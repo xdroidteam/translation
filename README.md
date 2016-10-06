@@ -1,5 +1,6 @@
 ## Laravel DB translation
 
+Change standard Laravel file-based translation to DB.
 
 ## Installation
 
