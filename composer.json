@@ -7,6 +7,11 @@
             "email": "info@xdroid.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Xdroid\\Translation\\": "src/"
+        }
+    },
     "minimum-stability": "dev",
     "require": {}
 }
