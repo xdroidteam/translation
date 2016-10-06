@@ -3,7 +3,7 @@
 
 ## Installation
 
-Require this package in your composer.json and run composer update (or run `composer require barryvdh/laravel-translation-manager` directly):
+Require this package in your composer.json and run composer update (or run `composer require xdroidteam/translation` directly):
 
     "composer require xdroidteam/translation"
     or
