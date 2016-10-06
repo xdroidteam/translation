@@ -7,10 +7,11 @@ Require this package in your composer.json and run composer update:
 
     "xdroidteam/translation": "dev-master"
 
-or run `composer require xdroidteam/translation` directly
+or run 
 
     "composer require xdroidteam/translation"
 
+directly.
 
 After updating composer, add the ServiceProvider to the providers array in config/app.php
 
