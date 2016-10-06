@@ -1,9 +1,8 @@
 # Laravel DB Translation
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](http://choosealicense.com/licenses/mit/)
 
-<br>
-Change the standard Laravel file-based translation to DB based.
-
+### Change the standard Laravel file-based translation to DB based.
+![Screenshot](https://raw.githubusercontent.com/doatech/etc/master/translationUI.png)
 ## Installation
 
 Require this package in your **composer.json** and run composer update:
