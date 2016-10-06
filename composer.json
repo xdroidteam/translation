@@ -1,6 +1,6 @@
 {
     "name": "xdroidteam/translation",
-    "description": "trans() from db",
+    "description": "Change standard Laravel file-based translation to DB.",
     "authors": [
         {
             "name": "Xdroid KFT.",
