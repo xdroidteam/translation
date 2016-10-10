@@ -1,6 +1,8 @@
 {
     "name": "xdroidteam/translation",
     "description": "Change standard Laravel file-based translation to DB.",
+    "license": "MIT",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "Xdroid KFT.",
