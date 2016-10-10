@@ -14,7 +14,7 @@
 
 Require this package in your **composer.json** and run composer update:
 
-    "xdroidteam/translation": "dev-master"
+    "xdroidteam/translation": "1.0.0"
 
 **or run**
 ```shell
