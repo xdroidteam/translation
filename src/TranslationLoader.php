@@ -1,4 +1,4 @@
-<?php namespace Xdroid\Translation;
+<?php namespace XdroidTeam\Translation;
 
 use Cache;
 use Illuminate\Translation\FileLoader;

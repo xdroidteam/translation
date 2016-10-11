@@ -1,4 +1,4 @@
-<?php namespace Xdroid\Translation;
+<?php namespace XdroidTeam\Translation;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;

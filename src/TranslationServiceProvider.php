@@ -1,5 +1,5 @@
 <?php
-namespace Xdroid\Translation;
+namespace XdroidTeam\Translation;
 
 use Illuminate\Routing\Router;
 use Illuminate\Translation\TranslationServiceProvider as ServiceProvider;
@@ -41,21 +41,11 @@ class TranslationServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../public' => public_path('vendor/xdroid/translation'),
-        ], 'xdroid-translation');
+            __DIR__.'/../database/migrations' => base_path('database/migrations'),
+            __DIR__.'/../config/xdroidteam-translation.php' => config_path('xdroidteam-translation.php'),
+        ], 'xdroidteam-translation');
 
-        $migrationPath = __DIR__.'/../database/migrations';
-        $this->publishes([
-            $migrationPath => base_path('database/migrations'),
-        ], 'migrations');
-
-        $config= [
-            'namespace' => 'Xdroid\Translation',
-            'prefix' => 'translations',
-            'middleware' => [
-                'web',
-                'auth',
-            ],
-        ];
+        $config = array_merge(['namespace' => 'XdroidTeam\Translation'], config('xdroidteam-translation.route'));
 
         $router->group($config, function($router)
         {

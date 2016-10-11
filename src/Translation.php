@@ -1,4 +1,4 @@
-<?php namespace Xdroid\Translation;
+<?php namespace XdroidTeam\Translation;
 
 
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +9,7 @@ class Translation extends Model {
 
     public static function getGroups(){
         return self::select('group')
+                    ->whereNotIn('group', config('xdroidteam-translation.exclude_groups', []))
                     ->orderBy('group')
                     ->groupBy('group')
                     ->lists('group')

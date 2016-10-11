@@ -1,4 +1,4 @@
-<?php namespace Xdroid\Translation\Console;
+<?php namespace XdroidTeam\Translation\Console;
 
 use Barryvdh\TranslationManager\Manager;
 use Illuminate\Console\Command;

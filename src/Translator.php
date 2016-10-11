@@ -1,4 +1,4 @@
-<?php namespace Xdroid\Translation;
+<?php namespace XdroidTeam\Translation;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
