@@ -238,5 +238,7 @@ html, body {
 a {
   text-decoration: none;
   color: inherit; }
-
+.table tbody tr:nth-of-type(1) .action-active::before {
+  bottom: 100%;
+}
 /*# sourceMappingURL=translations.css.map */

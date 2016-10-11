@@ -103,6 +103,9 @@
             </div>
         </div>
     </div>
+    <script>
+        var _xdroidTeamTranslationBaseRoute = '/{{{ config("xdroidteam-translation.route.prefix")}}}';
+    </script>
     <script src="/vendor/xdroid/translation/translations.js" charset="utf-8"></script>
 </body>
 </html>
