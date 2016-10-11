@@ -40,7 +40,6 @@ class TranslationServiceProvider extends ServiceProvider
         $this->loadViewsFrom($viewPath, 'translation');
 
         $this->publishes([
-            __DIR__.'/../public' => public_path('vendor/xdroid/translation'),
             __DIR__.'/../database/migrations' => base_path('database/migrations'),
             __DIR__.'/../config/xdroidteam-translation.php' => config_path('xdroidteam-translation.php'),
         ], 'xdroidteam-translation');

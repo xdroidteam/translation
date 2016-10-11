@@ -15,7 +15,7 @@
 
 Require this package in your **composer.json** and run composer update:
 
-    "xdroidteam/translation": "1.1.4"
+    "xdroidteam/translation": "1.1.*"
 
 **or run**
 ```shell
@@ -30,7 +30,7 @@ After updating composer, add the ServiceProvider to the providers array in **con
 'XdroidTeam\Translation\TranslationServiceProvider',
 ```
 <br>
-Deploy config, migration, css and js files.
+Deploy migration and config file.
 ```shell
 php artisan vendor:publish --tag=xdroidteam-translation
 ```
