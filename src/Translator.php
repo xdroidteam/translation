@@ -7,7 +7,7 @@ use Illuminate\Support\NamespacedItemResolver;
 use Symfony\Component\Translation\MessageSelector;
 use Symfony\Component\Translation\TranslatorInterface;
 
-use Xdroid\Translation\Translation;
+use XdroidTeam\Translation\Translation;
 
 
 class Translator extends \Illuminate\Translation\Translator

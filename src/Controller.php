@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Collection;
-use Xdroid\Translation\Translation;
+use XdroidTeam\Translation\Translation;
 use Cache;
 
 class Controller extends BaseController

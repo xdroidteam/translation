@@ -2,7 +2,7 @@
 
 use Cache;
 use Illuminate\Translation\FileLoader;
-use Xdroid\Translation\Translation;
+use XdroidTeam\Translation\Translation;
 
 class TranslationLoader extends FileLoader
 {

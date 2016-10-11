@@ -3,7 +3,7 @@
 use Barryvdh\TranslationManager\Manager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
-use Xdroid\Translation\Translation;
+use XdroidTeam\Translation\Translation;
 use Cache;
 use File;
 

@@ -22,7 +22,7 @@ class TranslationServiceProvider extends ServiceProvider
             // locale as well as the fallback locale. So, we'll grab the application
             // configuration so we can easily get both of these values from there.
             $locale = $app['config']['app.locale'];
-            $trans = new \Xdroid\Translation\Translator($loader, $locale);
+            $trans = new \XdroidTeam\Translation\Translator($loader, $locale);
             $trans->setFallback($app['config']['app.fallback_locale']);
             return $trans;
         });
