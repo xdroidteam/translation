@@ -419,7 +419,7 @@
 
                 var $input = $this.next('input');
 
-                $.post("/translations/update-or-create", {
+                $.post(_xdroidTeamTranslationBaseRoute + "/update-or-create", {
                     locale: $input.data('locale'),
                     group: $input.data('group'),
                     key: $input.data('key'),
