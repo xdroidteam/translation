@@ -2,7 +2,6 @@
     "name": "xdroidteam/translation",
     "description": "Change standard Laravel file-based translation to DB.",
     "license": "MIT",
-    "version": "1.1.0",
     "keywords": ["laravel", "database", "db", "translations", "translator"],
     "authors": [
         {
