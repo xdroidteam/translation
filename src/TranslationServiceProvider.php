@@ -45,7 +45,7 @@ class TranslationServiceProvider extends ServiceProvider
             __DIR__.'/../config/xdroidteam-translation.php' => config_path('xdroidteam-translation.php'),
         ], 'xdroidteam-translation');
 
-        $config = array_merge(['namespace' => 'XdroidTeam\Translation'], config('xdroidteam-translation.route'));
+        $config = array_merge(['namespace' => 'XdroidTeam\Translation'], config('xdroidteam-translation.route', []));
 
         $router->group($config, function($router)
         {
