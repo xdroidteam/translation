@@ -150,9 +150,6 @@
         .table tbody tr {
             border-bottom: 1px solid #c4c4c4;
         }
-        .table tbody tr:nth-of-type(1) .action {
-            top: 100%;
-        }
         .table thead tr th {
             padding: 1em;
             border: 0;
@@ -208,7 +205,7 @@
         .action {
             position: absolute;
             z-index: 10;
-            bottom: 100%;
+            top: 100%;
             display: none;
             width: 50%;
             height: 30px;
@@ -275,6 +272,35 @@
             text-decoration: none;
             color: inherit;
         }
+        .table-btn {
+            position: absolute;
+            top: 25%;
+            left: 1em;
+            border: 1px solid #47525E;
+            font-size: 14px;
+            background-color: transparent;
+            padding: 3px 8px;
+            font-weight: normal;
+            cursor: pointer;
+            transition: all .25s ease;
+        }
+
+        .table-btn:hover {
+            background-color: #47525E;
+            color: #fff;
+        }
+
+        .count {
+            font-weight: bold;
+            margin-left: 5px;
+            background: #D05353;
+            padding: 2px 4px;
+            font-size: 14px;
+            color: #d6d6d6;
+        }
+        .missing {
+            box-shadow: inset 0 0 0 1px #D05353;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js" charset="utf-8"></script>
@@ -291,10 +317,13 @@
                 Groups
             </div>
             <ul class="groups-list">
-                @foreach($groups as $groupName)
+                @foreach($groups as $group => $missingTrans)
                     <li>
-                        <a href="/translations/{{{ $groupName }}}" class="{{{ $group == $groupName ? 'active' : null }}}">
-                            {{{ $groupName }}}
+                        <a href="/translations/{{{ $group }}}" class="{{{ $selectedGroup == $group ? 'active' : null }}}">
+                            {{{ $group }}}
+                            @if ($missingTrans > 0)
+                                <span class="count">{{{$missingTrans}}}</span>
+                            @endif
                         </a>
                     </li>
                 @endforeach
@@ -302,7 +331,7 @@
         </div>
         <div class="table-section">
             <div class="subtitle">
-                {{{ $group }}}
+                {{{ $selectedGroup }}}
                 <div class="status-summary">
                     <div>
                         <span>Total:</span>
@@ -313,6 +342,12 @@
                         <span id="changedTrans">0</span>
                     </div>
                 </div>
+                <button id="show-only-missing" class="table-btn">
+                    Show only missing translations
+                </button>
+                <button id="show-all" style="display:none" class="table-btn">
+                    Show all translations
+                </button>
             </div>
             <table class="table">
                 <thead>
@@ -323,6 +358,11 @@
                         @foreach($locals as $localName => $value)
                             <th width="{{{ 100 / (count($locals) + 1) }}}%">
                                 {{{ $localName }}}
+                                @if ($missingByLocal[$localName])
+                                    <span class="count">
+                                        {{{ $missingByLocal[$localName] }}}
+                                    </span>
+                                @endif
                             </th>
                         @endforeach
                     </tr>
@@ -333,7 +373,7 @@
                 <table class="table">
                     <tbody>
                         @foreach($translations as $translationKey => $translation)
-                            <tr>
+                            <tr  class="translation-row">
                                 <td width="{{{ 100 / (count($locals) + 1) }}}%">
                                     <input type="text"
                                             class="editable"
@@ -352,7 +392,7 @@
                                                 name="{{{ $localName }}}"
                                                 data-locale="{{{ $localName }}}"
                                                 data-key="{{{ $translationKey }}}"
-                                                data-group="{{{ $group }}}"
+                                                data-group="{{{ $selectedGroup }}}"
                                                 title="{{{ $translation[$localName] }}}"
                                                 value="{{{ $translation[$localName] }}}"/>
                                         <div class="action action-no">
@@ -413,6 +453,11 @@
                     _activeInput.parent().children('.action-no').trigger('click');
                     return;
                 }
+                if (_activeInput.val())
+                    _activeInput.removeClass('missing');
+                else
+                    _activeInput.addClass('missing');
+
                 _activeInput = false;
                 $this.parent().children('.action-no').css('display', 'none');
                 $this.toggleClass('action-active');
@@ -467,6 +512,23 @@
                 $(this).siblings('.action-no').trigger('click');
                 $(this).blur();
             }
+        });
+
+        $(document).on('click', '#show-only-missing', function(e){
+            $('.translation-row').each(function( index, obj ) {
+                if (!$(this).find('input').hasClass('missing'))
+                    $(this).hide();
+            });
+            $(this).hide();
+            $('#show-all').show();
+        });
+
+        $(document).on('click', '#show-all', function(e){
+            $('.translation-row').each(function( index, obj ) {
+                $(this).show();
+            });
+            $(this).hide();
+            $('#show-only-missing').show();
         });
     </script>
 </body>

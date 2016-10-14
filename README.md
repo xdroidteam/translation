@@ -8,6 +8,7 @@
 2. The new keys will be **automatically added** to the DB
 3. It can easily import **lang** files to the DB
 4. Translation is stored in the **cache**, and editing it automatically refreshes the cache from DB. We use cache tags, so regular file or database cache drivers doesn't work, please use **memcached** instead.
+5. It is now showing the **missing tranlations** fields for each language and group. Also you can toogle views between "Show only missing translations" and "Show all translations".
 
 ![Screenshot](https://raw.githubusercontent.com/xdroidteam/images/master/translationUI.png)
 
@@ -15,7 +16,7 @@
 
 Require this package in your **composer.json** and run composer update:
 
-    "xdroidteam/translation": "1.1.*"
+    "xdroidteam/translation": "1.2.*"
 
 **or run**
 ```shell

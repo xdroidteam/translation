@@ -5,20 +5,21 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Collection;
 use XdroidTeam\Translation\Translation;
 use Cache;
+use DB;
 
 class Controller extends BaseController
 {
-    public function index($group = false){
-        $groups = Translation::getGroups();
-        if(!in_array($group, $groups) && count($groups) > 0)
-            $group = $groups[0];
-
+    public function index($selectedGroup = ''){
         $locals = [];
         foreach (explode(',', env('LANGUAGES')) as $key => $value)
             $locals[$value] = null;
 
+        $groups = Translation::getGroups(count($locals));
+        if(!array_key_exists($selectedGroup, $groups) && count($groups) > 0)
+            $selectedGroup = array_keys($groups)[0];
+
         $translations = [];
-        foreach (Translation::getTranslations($group) as $translationRow) {
+        foreach (Translation::getTranslations($selectedGroup) as $translationRow) {
             if(array_key_exists($translationRow->key, $translations))
                 $translations[$translationRow->key][$translationRow->locale] = $translationRow->translation;
             else{
@@ -27,7 +28,15 @@ class Controller extends BaseController
             }
         }
 
-        return view('translation::index', compact('group', 'groups', 'translations', 'locals'));
+        $missingByLocal = $locals;
+        foreach ($translations as $key => $locals) {
+            foreach ($locals as $locale => $value) {
+                if (!$value)
+                    $missingByLocal[$locale]++;
+            }
+        }
+
+        return view('translation::index', compact('selectedGroup', 'groups', 'translations', 'locals', 'missingByLocal'));
     }
 
     public function updateOrCreate(Request $request){
