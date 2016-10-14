@@ -13,6 +13,7 @@ class Translation extends Model {
                         DB::raw("(COUNT(DISTINCT (`key`)) * " . $localsNumber . " - SUM(IF(translation <> '',1,0))) AS missing_trans")
                     )
                     ->whereNotIn('group', config('xdroidteam-translation.exclude_groups', []))
+                    ->whereIn('locale', explode(',', env('LANGUAGES')))
                     ->orderBy('group')
                     ->groupBy('group')
                     ->lists('missing_trans', 'group')
@@ -26,6 +27,7 @@ class Translation extends Model {
                         'key',
                         'translation'
                     )
+                    ->whereIn('locale', explode(',', env('LANGUAGES')))
                     ->orderBy('key')
                     ->get();
     }
