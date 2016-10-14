@@ -322,7 +322,9 @@
                         <a href="/translations/{{{ $group }}}" class="{{{ $selectedGroup == $group ? 'active' : null }}}">
                             {{{ $group }}}
                             @if ($missingTrans > 0)
-                                <span class="count">{{{$missingTrans}}}</span>
+                                <span class="count {{{ $group }}}">{{{$missingTrans}}}</span>
+                            @else
+                                <span class="count {{{ $group }}}" style="display:none;">0</span>
                             @endif
                         </a>
                     </li>
@@ -359,8 +361,12 @@
                             <th width="{{{ 100 / (count($locals) + 1) }}}%">
                                 {{{ $localName }}}
                                 @if ($missingByLocal[$localName])
-                                    <span class="count">
+                                    <span class="count {{{ $localName }}}">
                                         {{{ $missingByLocal[$localName] }}}
+                                    </span>
+                                @else
+                                    <span class="count {{{ $localName }}}" style="display:none;">
+                                        0
                                     </span>
                                 @endif
                             </th>
@@ -453,6 +459,9 @@
                     _activeInput.parent().children('.action-no').trigger('click');
                     return;
                 }
+
+                updateCounters();
+
                 if (_activeInput.val())
                     _activeInput.removeClass('missing');
                 else
@@ -475,6 +484,34 @@
                     transChanged($input);
                 }).fail(function(data) {});
             });
+
+            var updateCounters = function(){
+                localeCount = $('.count.' + _activeInput.data('locale')).html() * 1;
+                groupCount = $('a.active .count').html() * 1;
+
+                if (_activeInput.val() && _activeInput.hasClass('missing')){
+                    if (localeCount - 1 == 0)
+                        $('.count.' + _activeInput.data('locale')).hide();
+
+                    $('.count.' + _activeInput.data('locale')).html(localeCount - 1);
+
+                    if (groupCount - 1 == 0)
+                        $('a.active .count').hide()
+
+                    $('a.active .count').html(groupCount - 1);
+                } else if(!_activeInput.val() && !_activeInput.hasClass('missing')){
+                    if (localeCount == 0)
+                        $('.count.' + _activeInput.data('locale')).show();
+
+                    $('.count.' + _activeInput.data('locale')).html(localeCount + 1);
+
+                    if (groupCount == 0)
+                        $('a.active .count').show()
+
+                    $('a.active .count').html(groupCount + 1);
+                }
+
+            }
 
             var transChanged = function($input) {
                 if ($input.hasClass('changed'))
