@@ -29,13 +29,12 @@ class Controller extends BaseController
         }
 
         $missingByLocal = $locals;
-        foreach ($translations as $key => $locals) {
-            foreach ($locals as $locale => $value) {
-                if (!$value)
+        foreach ($translations as $key => $translation) {
+            foreach ($translation as $locale => $value) {
+                if (!$value && array_key_exists($locale, $missingByLocal))
                     $missingByLocal[$locale]++;
             }
         }
-
         return view('translation::index', compact('selectedGroup', 'groups', 'translations', 'locals', 'missingByLocal'));
     }
 
