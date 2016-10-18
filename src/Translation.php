@@ -46,9 +46,10 @@ class Translation extends Model {
         fputcsv($file, array_keys($data[1]));
         foreach($data as $line)
         {
+            $line['translation'] = str_replace("\n", "", trim($line['translation']));
             fputcsv($file, $line);
         }
-        
+
         fclose($file);
     }
 }
