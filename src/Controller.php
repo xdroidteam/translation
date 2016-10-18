@@ -10,8 +10,8 @@ class Controller extends BaseController
 {
     public function index($selectedGroup = ''){
         $translationModel =  config('xdroidteam-translation.translation_model', '\XdroidTeam\Translation\Translation');
-
         $locals = [];
+        
         foreach ($translationModel::getLanguages() as $key => $value)
             $locals[$value] = null;
 

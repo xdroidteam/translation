@@ -9,7 +9,7 @@ class Translation extends Model {
     protected $table = 'translations';
 
     public static function getGroups(){
-        $languages = self::getLanguages();
+        $languages = static::getLanguages();
 
         return self::select(
                         'group',
@@ -30,7 +30,7 @@ class Translation extends Model {
                         'key',
                         'translation'
                     )
-                    ->whereIn('locale', self::getLanguages())
+                    ->whereIn('locale', static::getLanguages())
                     ->orderBy('key')
                     ->get();
     }
