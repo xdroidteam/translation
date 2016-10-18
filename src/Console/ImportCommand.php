@@ -3,7 +3,6 @@
 use Barryvdh\TranslationManager\Manager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
-use XdroidTeam\Translation\Translation;
 use Cache;
 use File;
 
@@ -33,7 +32,9 @@ class ImportCommand extends Command {
     }
 
     private function createOrUpdate($lang, $group, $key, $translation){
-        $translationRow = Translation::firstOrNew([
+        $translationModel =  config('xdroidteam-translation.translation_model', '\XdroidTeam\Translation\Translation');
+
+        $translationRow = $translationModel::firstOrNew([
             'locale' => $lang,
             'group' => $group,
             'key' => $key,

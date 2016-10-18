@@ -12,4 +12,6 @@ return array(
 
 	'exclude_groups' => [],
 
+    'translation_model' => '\XdroidTeam\Translation\Translation',
+
 );

@@ -2,7 +2,6 @@
 
 use Cache;
 use Illuminate\Translation\FileLoader;
-use XdroidTeam\Translation\Translation;
 
 class TranslationLoader extends FileLoader
 {
@@ -19,7 +18,9 @@ class TranslationLoader extends FileLoader
     {
         // Cache::tags('translations_' . env('APP_KEY'))->forget('translations.' . $locale . '.' . $group);
         $keys = Cache::tags('translations_' . env('APP_KEY'))->rememberForever('translations.' . $locale . '.' . $group, function() use($locale, $group){
-            return Translation::where('locale', '=', $locale)->where('group', '=', $group)->lists('translation', 'key')->all();
+            $translationModel =  config('xdroidteam-translation.translation_model', '\XdroidTeam\Translation\Translation');
+            
+            return $translationModel::where('locale', '=', $locale)->where('group', '=', $group)->lists('translation', 'key')->all();
         });
         return $keys;
     }

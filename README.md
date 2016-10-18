@@ -9,14 +9,14 @@
 3. It can easily import **lang** files to the DB
 4. Translation is stored in the **cache**, and editing it automatically refreshes the cache from DB. We use cache tags, so regular file or database cache drivers doesn't work, please use **memcached** instead.
 5. It is now showing the **missing tranlations** fields for each language and group. Also you can toogle views between "Show only missing translations" and "Show all translations".
-
+6. Now you can **export database** to .CSV.
 ![Screenshot](https://raw.githubusercontent.com/xdroidteam/images/master/translationUI.png)
 
 ## Installation
 
 Require this package in your **composer.json** and run composer update:
 
-    "xdroidteam/translation": "1.2.*"
+    "xdroidteam/translation": "1.3.*"
 
 **or run**
 ```shell
@@ -56,7 +56,9 @@ php artisan translations:import --overwrite
 <br>
 Routes are added in the ServiceProvider, available at `http://yourdomain.com/translations`
 
-You can change the route prefix in the deployed config file `config/xdroidteam-translation.php`. Also you can modify the middleware or exclude translation groups (excluded groups will not appear on the GUI). See the example below. 
+You can change the route prefix in the deployed config file `config/xdroidteam-translation.php`. Also you can modify the middleware or exclude translation groups (excluded groups will not appear on the GUI). See the example below.
+
+You can use another Translation model, with ove
 ```php
 <?php
 
@@ -72,6 +74,36 @@ return array(
     ],
 
 	'exclude_groups' => ['auth', 'base'],
+    
+    'translation_model' => '\App\Models\Translation',
+
 );
 
+```
+You can use other Translation model, to overwrite methods. For example:
+
+```php
+<?php
+
+namespace App\Models;
+
+use XdroidTeam\Translation\Translation as XdroidTranslation;
+
+class Translation extends XdroidTranslation
+{
+    public static function getLanguages(){
+        // original:
+        // return explode(',', env('LANGUAGES'));
+		
+        //custom:
+        return ['en', 'hu'];
+    }
+}
+
+```
+
+## Export
+You can export your db to a .CSV file, with call this function:
+```php
+XdroidTeam\Translation::exportToCSV('path/to/file');
 ```

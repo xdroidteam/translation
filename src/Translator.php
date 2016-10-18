@@ -7,13 +7,12 @@ use Illuminate\Support\NamespacedItemResolver;
 use Symfony\Component\Translation\MessageSelector;
 use Symfony\Component\Translation\TranslatorInterface;
 
-use XdroidTeam\Translation\Translation;
-
-
 class Translator extends \Illuminate\Translation\Translator
 {
 public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
+        $translationModel =  config('xdroidteam-translation.translation_model', '\XdroidTeam\Translation\Translation');
+
         list($namespace, $group, $item) = $this->parseKey($key);
         // Here we will get the locale that should be used for the language line. If one
         // was not passed, we will use the default locales which was given to us when
@@ -33,7 +32,7 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
         // from the application's language files. Otherwise we can return the line.
         if (! isset($line)) {
             if ($item)
-               Translation::firstOrCreate(['locale' => $locale, 'group' => $group, 'key' => $item]);
+               $translationModel::firstOrCreate(['locale' => $locale, 'group' => $group, 'key' => $item]);
             return $key;
         }
         return $line;
