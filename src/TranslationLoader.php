@@ -14,14 +14,20 @@ class TranslationLoader extends FileLoader
      *
      * @return array
      */
-    public function load($locale, $group, $namespace = null)
-    {
-        // Cache::tags('translations_' . env('APP_KEY'))->forget('translations.' . $locale . '.' . $group);
-        $keys = Cache::tags('translations_' . env('APP_KEY'))->rememberForever('translations.' . $locale . '.' . $group, function() use($locale, $group){
-            $translationModel =  config('xdroidteam-translation.translation_model', '\XdroidTeam\Translation\Translation');
-            
-            return $translationModel::where('locale', '=', $locale)->where('group', '=', $group)->lists('translation', 'key')->all();
-        });
-        return $keys;
-    }
+     public function load($locale, $group, $namespace = null)
+     {
+         // Cache::tags('translations_' . env('APP_KEY'))->forget('translations.' . $locale . '.' . $group);
+         $keys = Cache::tags('translations_' . env('APP_KEY'))->rememberForever('translations.' . $locale . '.' . $group, function() use($locale, $group){
+             $translationModel =  config('xdroidteam-translation.translation_model', '\XdroidTeam\Translation\Translation');
+             $translations = $translationModel::where('locale', '=', $locale)->where('group', '=', $group)->get();
+
+             $keys = [];
+             foreach($translations as $translation){
+                 array_set($keys, $translation->key, $translation->translation);
+             }
+
+             return $keys;
+         });
+         return $keys;
+     }
 }

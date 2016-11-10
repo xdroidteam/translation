@@ -58,7 +58,6 @@ Routes are added in the ServiceProvider, available at `http://yourdomain.com/tra
 
 You can change the route prefix in the deployed config file `config/xdroidteam-translation.php`. Also you can modify the middleware or exclude translation groups (excluded groups will not appear on the GUI). See the example below.
 
-You can use another Translation model, with ove
 ```php
 <?php
 
