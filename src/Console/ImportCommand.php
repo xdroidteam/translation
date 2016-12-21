@@ -21,8 +21,10 @@ class ImportCommand extends Command {
 
             foreach (File::allFiles($basePath)  as $langFile) {
                 $group = explode('.', $langFile->getRelativePathname())[0];
-
                 foreach (array_dot(File::getRequire($langFile->getRealPath())) as $key => $translation) {
+                    if (is_array($translation))
+                        continue;
+
                     $this->createOrUpdate($lang, $group, $key, $translation);
                 }
                 Cache::tags('translations_' . env('APP_KEY'))->forget('translations.' . $lang . '.' . $group);
