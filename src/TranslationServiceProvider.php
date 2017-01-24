@@ -49,7 +49,7 @@ class TranslationServiceProvider extends ServiceProvider
         $router->group($config, function($router)
         {
             $router->get('/', function(){
-                return redirect()->to(url()->current() . '/group');
+                return redirect()->to(url()->current() . '/missing');
             });
             $router->get('/missing', 'Controller@missing');
             $router->get('/group/{group?}', 'Controller@index')->where(['group' => '.*']);
