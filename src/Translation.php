@@ -35,6 +35,28 @@ class Translation extends Model {
                     ->get();
     }
 
+    private static function missingTranslationBuilder(){
+        return self::whereNull('translation')
+                    ->where('locale', '=', 'en')
+                    ->select(
+                        'locale',
+                        'group',
+                        'key',
+                        'translation'
+                    )
+                    ->orderBy('key');
+    }
+
+    public static function getMissingTranslations(){
+        return self::missingTranslationBuilder()
+                    ->get();
+    }
+
+    public static function getMissingTranslationsCount(){
+        return self::missingTranslationBuilder()
+                    ->count();
+    }
+
     public static function getLanguages(){
         return explode(',', env('LANGUAGES'));
     }

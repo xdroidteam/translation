@@ -48,8 +48,15 @@ class TranslationServiceProvider extends ServiceProvider
 
         $router->group($config, function($router)
         {
-            $router->get('{group?}', 'Controller@index')->where(['group' => '.*']);
+            $router->get('/', function(){
+                return redirect()->to(url()->current() . '/group');
+            });
+            $router->get('/missing', 'Controller@missing');
+            $router->get('/group/{group?}', 'Controller@index')->where(['group' => '.*']);
             $router->post('update-or-create', 'Controller@updateOrCreate');
         });
+
+        view()->composer(['translation::index', 'translation::group'], 'XdroidTeam\Translation\ViewComposer');
+
     }
 }

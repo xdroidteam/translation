@@ -301,6 +301,47 @@
         .missing {
             box-shadow: inset 0 0 0 1px #D05353;
         }
+        .action-btn {
+            position: relative;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            width: 100%;
+            height: 6%;
+            padding: 0;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+        }
+
+        .action-btn a {
+            cursor: pointer;
+            transition: all .25s ease;
+            position: absolute;
+            top: 33%;
+            padding: 3px 8px;
+            margin: 0;
+            font-size: 14px;
+            border: 1px solid #47525E
+        }
+
+        .action-btn a:hover {
+            background-color: #47525E;
+            color: #fff;
+        }
+
+        .action-btn .active {
+            background-color: #47525E;
+            color: #fff;
+        }
+
+        .action-btn .active:hover {
+            background: transparent;
+            color: #47525E;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js" charset="utf-8"></script>
@@ -313,13 +354,23 @@
     </div>
     <div class="wrapper">
         <div class="groups">
+            <div class="action-btn">
+                <a  href="/{{{ str_finish(config('xdroidteam-translation.route.prefix', '/'), '/') }}}missing"
+                    class="{{{ starts_with('/' . \Request::path(), '/' . str_finish(config('xdroidteam-translation.route.prefix', '/'), '/') . 'missing') ? 'active' : '' }}}">
+                    Missing
+                    @if ($missingCount > 0)
+                        <span class="count">{{{$missingCount}}}</span>
+                    @endif
+                </a>
+            </div>
             <div class="subtitle">
                 Groups
             </div>
             <ul class="groups-list">
                 @foreach($groups as $group => $missingTrans)
                     <li>
-                        <a href="/translations/{{{ $group }}}" class="{{{ $selectedGroup == $group ? 'active' : null }}}">
+                        <a href="/{{{ str_finish(config('xdroidteam-translation.route.prefix', '/'), '/') }}}group/{{{ $group }}}"
+                            class="{{{ $selectedGroup == $group && ! (starts_with('/' . \Request::path(), '/' . str_finish(config('xdroidteam-translation.route.prefix', '/'), '/') . 'missing') ) ? 'active' : null }}}">
                             {{{ $group }}}
                             @if ($missingTrans > 0)
                                 <span class="count {{{ $group }}}">{{{$missingTrans}}}</span>
@@ -331,87 +382,7 @@
                 @endforeach
             </ul>
         </div>
-        <div class="table-section">
-            <div class="subtitle">
-                {{{ $selectedGroup }}}
-                <div class="status-summary">
-                    <div>
-                        <span>Total:</span>
-                        <span>{{{ count($translations) }}}</span>
-                    </div>
-                    <div>
-                        <span>Changed:</span>
-                        <span id="changedTrans">0</span>
-                    </div>
-                </div>
-                <button id="show-only-missing" class="table-btn">
-                    Show only missing translations
-                </button>
-                <button id="show-all" style="display:none" class="table-btn">
-                    Show all translations
-                </button>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th width="{{{ 100 / (count($locals) + 1) }}}%">
-                            Key
-                        </th>
-                        @foreach($locals as $localName => $value)
-                            <th width="{{{ 100 / (count($locals) + 1) }}}%">
-                                {{{ $localName }}}
-                                @if ($missingByLocal[$localName])
-                                    <span class="count {{{ $localName }}}">
-                                        {{{ $missingByLocal[$localName] }}}
-                                    </span>
-                                @else
-                                    <span class="count {{{ $localName }}}" style="display:none;">
-                                        0
-                                    </span>
-                                @endif
-                            </th>
-                        @endforeach
-                    </tr>
-                </thead>
-            </table>
-            <div class="table-wrapper">
-                {!!csrf_field() !!}
-                <table class="table">
-                    <tbody>
-                        @foreach($translations as $translationKey => $translation)
-                            <tr  class="translation-row">
-                                <td width="{{{ 100 / (count($locals) + 1) }}}%">
-                                    <input type="text"
-                                            class="editable"
-                                            name="name"
-                                            value="{{{ $translationKey }}}"
-                                            title="{{{ $translationKey }}}"
-                                            disabled="disabled"/>
-                                </td>
-                                @foreach($locals as $localName => $value)
-                                    <td width="{{{ 100 / (count($locals) + 1) }}}%">
-                                        <button type="button" name="button" class="action action-yes">
-                                            Save
-                                        </button>
-                                        <input type="text"
-                                                class="editable {{{ $translation[$localName] ? '' : 'missing'}}}"
-                                                name="{{{ $localName }}}"
-                                                data-locale="{{{ $localName }}}"
-                                                data-key="{{{ $translationKey }}}"
-                                                data-group="{{{ $selectedGroup }}}"
-                                                title="{{{ $translation[$localName] }}}"
-                                                value="{{{ $translation[$localName] }}}"/>
-                                        <div class="action action-no">
-                                            Cancel
-                                        </div>
-                                    </td>
-                                @endforeach
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        @yield('table')
     </div>
     <script>
         var _xdroidTeamTranslationBaseRoute = '/{{{ config("xdroidteam-translation.route.prefix")}}}';

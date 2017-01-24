@@ -11,13 +11,9 @@ class Controller extends BaseController
     public function index($selectedGroup = ''){
         $translationModel =  config('xdroidteam-translation.translation_model', '\XdroidTeam\Translation\Translation');
         $locals = [];
-        
+
         foreach ($translationModel::getLanguages() as $key => $value)
             $locals[$value] = null;
-
-        $groups = $translationModel::getGroups();
-        if(!array_key_exists($selectedGroup, $groups) && count($groups) > 0)
-            $selectedGroup = array_keys($groups)[0];
 
         $translations = [];
         foreach ($translationModel::getTranslations($selectedGroup) as $translationRow) {
@@ -36,7 +32,7 @@ class Controller extends BaseController
                     $missingByLocal[$locale]++;
             }
         }
-        return view('translation::index', compact('selectedGroup', 'groups', 'translations', 'locals', 'missingByLocal'));
+        return view('translation::group', compact('translations', 'locals', 'missingByLocal'));
     }
 
     public function updateOrCreate(Request $request){
@@ -49,5 +45,13 @@ class Controller extends BaseController
         $translationRow->save();
 
         return ['status' => 'succes'];
+    }
+
+    public function missing(){
+        $translationModel =  config('xdroidteam-translation.translation_model', '\XdroidTeam\Translation\Translation');
+
+        $missingTranslations = $translationModel::getMissingTranslations();
+
+        return view('translation::missing', compact('missingTranslations'));
     }
 }
