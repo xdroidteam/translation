@@ -27,10 +27,17 @@ class TranslationServiceProvider extends ServiceProvider
             return $trans;
         });
 
-        $this->app['command.translator.import'] = $this->app->share(function($app)
-        {
-            return new Console\ImportCommand($app['translator']);
-        });
+        $app = $this->app;
+        $version = $app::VERSION;
+
+        if(starts_with($version, '5.4')){
+            $this->app['command.translator.import'] = new Console\ImportCommand($this->app['translator']);
+        } else {
+            $this->app['command.translator.import'] = $this->app->share(function($app){
+                return new Console\ImportCommand($app['translator']);
+            });
+        }
+
         $this->commands('command.translator.import');
     }
 
