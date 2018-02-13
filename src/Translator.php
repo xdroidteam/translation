@@ -21,7 +21,7 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
         $app = app();
         $version = $app::VERSION;
 
-        if(starts_with($version, '5.4')){
+        if($version >= '5.4'){
             $locales = $fallback ? $this->localeArray($locale) : [$locale ?: $this->locale];
         }else{
             $locales = $fallback ? $this->parseLocale($locale) : [$locale ?: $this->locale];
