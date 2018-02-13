@@ -30,7 +30,7 @@ class TranslationServiceProvider extends ServiceProvider
         $app = $this->app;
         $version = $app::VERSION;
 
-        if(starts_with($version, '5.4')){
+        if($version >= '5.4'){
             $this->app['command.translator.import'] = new Console\ImportCommand($this->app['translator']);
         } else {
             $this->app['command.translator.import'] = $this->app->share(function($app){
