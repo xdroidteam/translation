@@ -54,4 +54,12 @@ class Controller extends BaseController
 
         return view('translation::missing', compact('missingTranslations'));
     }
+
+    public function all(){
+        $translationModel =  config('xdroidteam-translation.translation_model', '\XdroidTeam\Translation\Translation');
+
+        $allTranslations = $translationModel::getAllTranslations();
+
+        return view('translation::all', compact('allTranslations'));
+    }
 }

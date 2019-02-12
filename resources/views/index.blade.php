@@ -363,6 +363,12 @@
                     @endif
                 </a>
             </div>
+            <div class="action-btn">
+                <a  href="/{{{ str_finish(config('xdroidteam-translation.route.prefix', '/'), '/') }}}all"
+                    class="{{{ starts_with('/' . \Request::path(), '/' . str_finish(config('xdroidteam-translation.route.prefix', '/'), '/') . 'all') ? 'active' : '' }}}">
+                    All
+                </a>
+            </div>
             <div class="subtitle">
                 Groups
             </div>
@@ -497,7 +503,7 @@
                 tableHeight = $('.table-wrapper').height();
 
             $('.groups-list').slimScroll({
-                height: groupHeight,
+                height: groupHeight - 120,
                 distance: '0px',
                 color: '#47525E',
                 borderRadius: '0'

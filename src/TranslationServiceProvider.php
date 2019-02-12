@@ -59,6 +59,7 @@ class TranslationServiceProvider extends ServiceProvider
                 return redirect()->to(url()->current() . '/missing');
             });
             $router->get('/missing', 'Controller@missing');
+            $router->get('/all', 'Controller@all');
             $router->get('/group/{group?}', 'Controller@index')->where(['group' => '.*']);
             $router->post('update-or-create', 'Controller@updateOrCreate');
         });
