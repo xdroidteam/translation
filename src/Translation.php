@@ -11,7 +11,7 @@ class Translation extends Model {
     public static function getGroups(){
         $languages = static::getLanguages();
 
-        return self::select(
+        $groups = self::select(
                         'group',
                         DB::raw("(COUNT(DISTINCT (`key`)) * " . count($languages) . " - SUM(IF(translation <> '',1,0))) AS missing_trans")
                     )
@@ -19,8 +19,10 @@ class Translation extends Model {
                     ->whereIn('locale', $languages)
                     ->orderBy('group')
                     ->groupBy('group')
-                    ->lists('missing_trans', 'group')
+                    ->pluck('missing_trans', 'group')
                     ->all();
+        
+        return $groups;
     }
 
     public static function getTranslations($group){
