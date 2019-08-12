@@ -2,7 +2,7 @@
 namespace XdroidTeam\Translation;
 
 use Illuminate\Routing\Router;
-use Illuminate\Translation\TranslationServiceProvider as ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class TranslationServiceProvider extends ServiceProvider
 {
