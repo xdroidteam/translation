@@ -1,25 +1,26 @@
 <?php namespace XdroidTeam\Translation;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
-use Illuminate\Support\NamespacedItemResolver;
-use Symfony\Component\Translation\MessageSelector;
-use Symfony\Component\Translation\TranslatorInterface;
-
 class Translator extends \Illuminate\Translation\Translator
 {
 public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
+        $app = app();
+        $version = $app::VERSION;
+
         $translationModel =  config('xdroidteam-translation.translation_model', '\XdroidTeam\Translation\Translation');
+
+        if($version >= '6.0') {
+            if(preg_match('/[A-Z\s]/', $key)) {
+                $originalKey = $key;
+                $key = 'default.' . mb_substr(\Str::snake(preg_replace('/[^A-Za-z0-9\- ]/', '', $key)), 0, 255);
+            }
+        }
 
         list($namespace, $group, $item) = $this->parseKey($key);
         // Here we will get the locale that should be used for the language line. If one
         // was not passed, we will use the default locales which was given to us when
         // the translator was instantiated. Then, we can load the lines and return.
 
-        $app = app();
-        $version = $app::VERSION;
 
         if($version >= '5.4'){
             $locales = $fallback ? $this->localeArray($locale) : [$locale ?: $this->locale];
@@ -41,8 +42,8 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
         // from the application's language files. Otherwise we can return the line.
         if (! isset($line)) {
             if ($item)
-               $translationModel::firstOrCreate(['locale' => $locale, 'group' => $group, 'key' => $item]);
-            return $key;
+               $translationModel::firstOrCreate(['locale' => $locale, 'group' => $group, 'key' => $item, 'translation' => $originalKey ?? null]);
+            return $originalKey ?? $key;
         }
         return $line;
     }
