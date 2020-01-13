@@ -47,10 +47,16 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
                 if(!$model->exists) {
                     $model->translation = $originalKey ?? null;
                     $model->save();
+                    \Cache::tags('translations_' . env('APP_KEY'))->forget('translations.' . $locale . '.' . $group);
+
                 } else {
-                    return $model->translation ?? $originalKey ?? $key;
+                    if($model->translation) {
+                        \Cache::tags('translations_' . env('APP_KEY'))->forget('translations.' . $locale . '.' . $group);
+                        return $model->translation;
+                    }
                 }
             }
+
             return $originalKey ?? $key;
         }
         return $line;
