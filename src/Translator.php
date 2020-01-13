@@ -42,10 +42,14 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
         // from the application's language files. Otherwise we can return the line.
         if (! isset($line)) {
             if ($item) {
-                    $translationModel::updateOrCreate(
-                        ['locale' => $locale, 'group' => $group, 'key' => $item],
-                        ['translation' => $originalKey ?? null]
-                    );
+                $model = $translationModel::firstOrNew(['locale' => $locale, 'group' => $group, 'key' => $item]);
+
+                if(!$model->exists) {
+                    $model->translation = $originalKey ?? null;
+                    $model->save();
+                } else {
+                    return $model->translation ?? $originalKey ?? $key;
+                }
             }
             return $originalKey ?? $key;
         }
