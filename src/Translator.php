@@ -41,8 +41,12 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
         // that will be quick to spot in the UI if language keys are wrong or missing
         // from the application's language files. Otherwise we can return the line.
         if (! isset($line)) {
-            if ($item)
-               $translationModel::firstOrCreate(['locale' => $locale, 'group' => $group, 'key' => $item, 'translation' => $originalKey ?? null]);
+            if ($item) {
+                    $translationModel::updateOrCreate(
+                        ['locale' => $locale, 'group' => $group, 'key' => $item],
+                        ['translation' => $originalKey ?? null]
+                    );
+            }
             return $originalKey ?? $key;
         }
         return $line;
