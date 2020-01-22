@@ -10,7 +10,7 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
         $translationModel =  config('xdroidteam-translation.translation_model', '\XdroidTeam\Translation\Translation');
 
         if($version >= '6.0') {
-            if(preg_match('/(?= )/', $key)) {
+            if(preg_match('/^(?![a-z\/_]*?\.[A-Za-z0-9_\.\/%-]*$)/', $key)) {
                 $originalKey = $key;
                 $key = 'default.' . mb_substr(\Str::snake(preg_replace('/[^A-Za-z0-9\- ]/', '', $key)), 0, 255);
             }
