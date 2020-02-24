@@ -10,7 +10,7 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
         $translationModel =  config('xdroidteam-translation.translation_model', '\XdroidTeam\Translation\Translation');
 
         if($version >= '6.0') {
-            if(preg_match('/^(?![a-z\/_]*?\.[A-Za-z0-9_\.\/%-]*$)/', $key)) {
+            if(preg_match('/(?= )/', $key)) {
                 $originalKey = $key;
                 $key = 'default.' . mb_substr(\Str::snake(preg_replace('/[^A-Za-z0-9\- ]/', '', $key)), 0, 255);
             }
@@ -56,9 +56,28 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
                     }
                 }
             }
-
-            return $originalKey ?? $key;
+            if($translationModel::isTranslationDebugEnabled() && $translationModel::isTranslationDebugVerbose()) {
+                return $group . '.' . $item . ': ' . ($originalKey ?? $key);
+            } else {
+                return $originalKey ?? $key;
+            }
         }
-        return $line;
+        if($translationModel::isTranslationDebugEnabled() && $translationModel::isTranslationDebugVerbose()) {
+            return $this->getWithKeys($group, $item, $line);
+        } else {
+            return $line;
+        }
+    }
+
+    private function getWithKeys($group, $item, $line) {
+        if(is_array($line)) {
+            $lines = [];
+            foreach ($line as $linekey => $lineItem) {
+                $lines[$linekey] = $this->getWithKeys($group, $linekey, $lineItem);
+            }
+            return $lines;
+        } else {
+            return $group . '.' . $item . ': ' . $line;
+        }
     }
 }

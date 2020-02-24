@@ -21,7 +21,7 @@ class Translation extends Model {
                     ->groupBy('group')
                     ->pluck('missing_trans', 'group')
                     ->all();
-        
+
         return $groups;
     }
 
@@ -88,5 +88,33 @@ class Translation extends Model {
         }
 
         fclose($file);
+    }
+
+
+    public static function isTranslationDebugEnabled(){
+        return session()->get('is_translation_debug_enabled', false);
+    }
+
+    public static function isTranslationDebugVerbose(){
+        return session()->get('is_translation_debug_verbose', false);
+    }
+
+    public static function enableTranslationDebug() {
+        return session()->put('is_translation_debug_enabled', true);
+    }
+
+    public static function enableTranslationVerboseDebug() {
+        return session()->put('is_translation_debug_verbose', true);
+    }
+
+    public static function disableTranslationVerboseDebug() {
+        return session()->put('is_translation_debug_verbose', false);
+    }
+
+    public static function disableTranslationDebug(){
+        session()->forget('is_translation_debug_verbose');
+
+        return session()->put('is_translation_debug_enabled', false);
+
     }
 }
