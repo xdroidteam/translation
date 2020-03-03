@@ -47,19 +47,18 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
                 if(!$model->exists) {
                     $model->translation = $originalKey ?? null;
                     $model->save();
-                    \Cache::tags('translations_' . env('APP_KEY'))->forget('translations.' . $locale . '.' . $group);
-
-                } else {
-                    if($model->translation) {
-                        \Cache::tags('translations_' . env('APP_KEY'))->forget('translations.' . $locale . '.' . $group);
-                        return $model->translation;
-                    }
                 }
+                
+                $trans = $model->translation ?? $originalKey ?? $key;
+
+                $transArray = array_merge(\Cache::tags('translations_' . env('APP_KEY'))->get('translations.' . $locale . '.' . $group), [$item => $trans]);
+                \Cache::tags('translations_' . env('APP_KEY'))->put('translations.' . $locale . '.' . $group , $transArray);
             }
+            
             if($translationModel::isTranslationDebugEnabled() && $translationModel::isTranslationDebugVerbose()) {
-                return $group . '.' . $item . ': ' . ($originalKey ?? $key);
+                return $group . '.' . $item . ': ' . ($trans ?? $originalKey ?? $key);
             } else {
-                return $originalKey ?? $key;
+                return $trans ?? $originalKey ?? $key;
             }
         }
         if($translationModel::isTranslationDebugEnabled() && $translationModel::isTranslationDebugVerbose()) {
