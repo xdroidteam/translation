@@ -51,7 +51,7 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
                 
                 $trans = $model->translation ?? $originalKey ?? $key;
 
-                $transArray = array_merge(\Cache::tags('translations_' . env('APP_KEY'))->get('translations.' . $locale . '.' . $group), [$item => $trans]);
+                $transArray = array_merge(\Cache::tags('translations_' . env('APP_KEY'))->get('translations.' . $locale . '.' . $group, []), [$item => $trans]);
                 \Cache::tags('translations_' . env('APP_KEY'))->put('translations.' . $locale . '.' . $group , $transArray);
             }
             
