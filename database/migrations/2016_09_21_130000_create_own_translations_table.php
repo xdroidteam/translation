@@ -20,7 +20,6 @@ class CreateOwnTranslationsTable extends Migration
             $table->string('key');
             $table->text('translation')->nullable();
             $table->integer('status')->default(0);
-            $table->dateTime('last_touch')->nullable();
             $table->timestamps();
          });
     }
