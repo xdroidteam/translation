@@ -30,6 +30,34 @@
                         Translation
                     </th>
                 </tr>
+                <tr>
+                    <th width="25%">
+                        <input type="text"
+                        class="editable"
+                        name="locale_search"
+                        id="locale_search"
+                        placeholder="Search..."
+                        value=""/>
+                    </th>
+                    <th width="25%">
+                        <input type="text"
+                        class="editable"
+                        name="group_search"
+                        id="group_search"
+                        placeholder="Search..."
+                        value=""/>
+                    </th>
+                    <th width="25%">
+                        <input type="text"
+                        class="editable"
+                        name="key_search"
+                        id="key_search"
+                        value=""
+                        placeholder="Search..."/>
+                    </th>
+                    <th width="25%">
+                    </th>
+                </tr>
             </thead>
         </table>
         <div class="table-wrapper">
@@ -40,7 +68,7 @@
                         <tr  class="translation-row">
                             <td width="25%">
                                 <input type="text"
-                                class="editable"
+                                class="editable locale"
                                 name="name"
                                 value="{{{ $allTranslation->locale }}}"
                                 title="{{{ $allTranslation->locale }}}"
@@ -48,7 +76,7 @@
                             </td>
                             <td width="25%">
                                 <input type="text"
-                                class="editable"
+                                class="editable group"
                                 name="name"
                                 value="{{{ $allTranslation->group }}}"
                                 title="{{{ $allTranslation->group }}}"
@@ -56,7 +84,7 @@
                             </td>
                             <td width="25%">
                                 <input type="text"
-                                class="editable"
+                                class="editable key"
                                 name="name"
                                 value="{{{ $allTranslation->key }}}"
                                 title="{{{ $allTranslation->key }}}"
@@ -85,3 +113,10 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    var searchFields = ['locale', 'group', 'key'];
+</script>
+@endpush
+@include('translation::search')

@@ -59,6 +59,7 @@ class Translation extends Model {
                         'key',
                         'translation'
                     )
+                    ->orderBy('group')
                     ->orderBy('key');
     }
 

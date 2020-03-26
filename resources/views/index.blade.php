@@ -545,5 +545,6 @@
             $('#show-only-missing').show();
         });
     </script>
+    @stack('scripts')
 </body>
 </html>

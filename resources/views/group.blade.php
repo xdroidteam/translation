@@ -41,6 +41,20 @@
                         </th>
                     @endforeach
                 </tr>
+                <tr>
+                    <th width="{{{ 100 / (count($locals) + 1) }}}%">
+                        <input type="text"
+                        class="editable"
+                        name="key_search"
+                        id="key_search"
+                        value=""
+                        placeholder="Search..."/>
+                    </th>
+                    @foreach($locals as $localName => $value)
+                        <th width="{{{ 100 / (count($locals) + 1) }}}%">
+                        </th>
+                    @endforeach
+                </tr>
             </thead>
         </table>
         <div class="table-wrapper">
@@ -51,7 +65,7 @@
                         <tr  class="translation-row">
                             <td width="{{{ 100 / (count($locals) + 1) }}}%">
                                 <input type="text"
-                                class="editable"
+                                class="editable key"
                                 name="name"
                                 value="{{{ $translationKey }}}"
                                 title="{{{ $translationKey }}}"
@@ -82,3 +96,10 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    var searchFields = ['key'];
+</script>
+@endpush
+@include('translation::search')
