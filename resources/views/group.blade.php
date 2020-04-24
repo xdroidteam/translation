@@ -52,6 +52,12 @@
                     </th>
                     @foreach($locals as $localName => $value)
                         <th width="{{{ 100 / (count($locals) + 1) }}}%">
+                            <input type="text"
+                                class="editable"
+                                name="trans_{{  $localName }}_search"
+                                id="trans_{{  $localName }}_search"
+                                value=""
+                                placeholder="Search..."/>
                         </th>
                     @endforeach
                 </tr>
@@ -77,7 +83,7 @@
                                         Save
                                     </button>
                                     <input type="text"
-                                    class="editable {{{ $translation[$localName] ? '' : 'missing'}}}"
+                                    class="editable {{{ $translation[$localName] ? '' : 'missing'}}} trans_{{  $localName }}"
                                     name="{{{ $localName }}}"
                                     data-locale="{{{ $localName }}}"
                                     data-key="{{{ $translationKey }}}"
@@ -99,7 +105,12 @@
 
 @push('scripts')
 <script>
-    var searchFields = ['key'];
+    var searchFields = [
+        'key',
+        @foreach($locals as $localName => $value)
+            'trans_{{  $localName }}',
+        @endforeach
+    ];
 </script>
 @endpush
 @include('translation::search')

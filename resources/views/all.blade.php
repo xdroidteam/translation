@@ -56,6 +56,12 @@
                         placeholder="Search..."/>
                     </th>
                     <th width="25%">
+                        <input type="text"
+                        class="editable"
+                        name="trans_search"
+                        id="trans_search"
+                        value=""
+                        placeholder="Search..."/>
                     </th>
                 </tr>
             </thead>
@@ -95,7 +101,7 @@
                                     Save
                                 </button>
                                 <input type="text"
-                                class="editable"
+                                class="editable trans"
                                 name="{{{ $allTranslation->locale }}}"
                                 data-locale="{{{ $allTranslation->locale }}}"
                                 data-key="{{{ $allTranslation->key }}}"
@@ -116,7 +122,7 @@
 
 @push('scripts')
 <script>
-    var searchFields = ['locale', 'group', 'key'];
+    var searchFields = ['locale', 'group', 'key', 'trans'];
 </script>
 @endpush
 @include('translation::search')
