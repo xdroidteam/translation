@@ -2,6 +2,7 @@
 
 use Cache;
 use Illuminate\Translation\FileLoader;
+use Illuminate\Support\Arr;
 
 class TranslationLoader extends FileLoader
 {
@@ -23,7 +24,7 @@ class TranslationLoader extends FileLoader
 
              $keys = [];
              foreach($translations as $translation){
-                 array_set($keys, $translation->key, $translation->translation);
+                 Arr::set($keys, $translation->key, $translation->translation);
              }
 
              return $keys;

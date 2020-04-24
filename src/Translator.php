@@ -5,15 +5,12 @@ class Translator extends \Illuminate\Translation\Translator
 public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
         $app = app();
-        $version = $app::VERSION;
 
         $translationModel =  config('xdroidteam-translation.translation_model', '\XdroidTeam\Translation\Translation');
 
-        if($version >= '6.0') {
-            if(preg_match('/(?= )/', $key)) {
-                $originalKey = $key;
-                $key = 'default.' . mb_substr(\Str::snake(preg_replace('/[^A-Za-z0-9\- ]/', '', $key)), 0, 255);
-            }
+        if(preg_match('/(?= )/', $key)) {
+            $originalKey = $key;
+            $key = 'default.' . mb_substr(\Str::snake(preg_replace('/[^A-Za-z0-9\- ]/', '', $key)), 0, 255);
         }
 
         list($namespace, $group, $item) = $this->parseKey($key);
@@ -22,11 +19,7 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
         // the translator was instantiated. Then, we can load the lines and return.
 
 
-        if($version >= '5.4'){
-            $locales = $fallback ? $this->localeArray($locale) : [$locale ?: $this->locale];
-        }else{
-            $locales = $fallback ? $this->parseLocale($locale) : [$locale ?: $this->locale];
-        }
+        $locales = $fallback ? $this->localeArray($locale) : [$locale ?: $this->locale];
 
         foreach ($locales as $locale) {
             $this->load($namespace, $group, $locale);
@@ -54,7 +47,7 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
                 $transArray = array_merge(\Cache::tags('translations_' . env('APP_KEY'))->get('translations.' . $locale . '.' . $group, []), [$item => $trans]);
                 \Cache::tags('translations_' . env('APP_KEY'))->put('translations.' . $locale . '.' . $group , $transArray);
             }
-            
+
             if($translationModel::isTranslationDebugEnabled() && $translationModel::isTranslationDebugVerbose()) {
                 return $group . '.' . $item . ': ' . ($trans ?? $originalKey ?? $key);
             } else {

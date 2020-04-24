@@ -13,10 +13,10 @@
 ![Screenshot](https://raw.githubusercontent.com/xdroidteam/images/master/translationUI.png)
 
 ## Installation
-
+### **Below laravel 6.x use version 1.5.x, for Laravel/Lumen 6.x, 7.x use version 2.x**
 Require this package in your **composer.json** and run composer update:
 
-    "xdroidteam/translation": "1.3.*"
+    "xdroidteam/translation": "1.5.*"
 
 **or run**
 ```shell
