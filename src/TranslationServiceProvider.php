@@ -3,9 +3,8 @@ namespace XdroidTeam\Translation;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Support\DeferrableProvider;
 
-class TranslationServiceProvider extends ServiceProvider implements DeferrableProvider
+class TranslationServiceProvider extends ServiceProvider
 {
     protected function registerLoader()
     {
