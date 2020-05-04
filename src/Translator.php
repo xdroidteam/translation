@@ -1,5 +1,7 @@
 <?php namespace XdroidTeam\Translation;
 
+use Illuminate\Support\Str;
+
 class Translator extends \Illuminate\Translation\Translator
 {
 public function get($key, array $replace = [], $locale = null, $fallback = true)
@@ -10,7 +12,7 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
 
         if(preg_match('/(?= )/', $key)) {
             $originalKey = $key;
-            $key = 'default.' . mb_substr(\Str::snake(preg_replace('/[^A-Za-z0-9\- ]/', '', $key)), 0, 255);
+            $key = 'default.' . mb_substr(Str::snake(preg_replace('/[^A-Za-z0-9\- ]/', '', $key)), 0, 255);
         }
 
         list($namespace, $group, $item) = $this->parseKey($key);
