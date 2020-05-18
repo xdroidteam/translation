@@ -41,6 +41,14 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
 
                 if(!$model->exists) {
                     $model->translation = $originalKey ?? null;
+
+                    if($translationModel::where(['locale' => $locale, 'group' => $group])->where('key', 'like', $item . '.%')->count() > 0) {
+                        \Log::warning('Wrong translation key given, children exist for locale ' . $locale . ' ' . $group . '.' . $item);
+                        \DebugBar::warning('Wrong translation key given, children exist for locale ' . $locale . ' ' . $group . '.' . $item);
+
+                        return "Wrong key for: " . $item;
+                    }
+
                     $model->save();
                 }
                 
