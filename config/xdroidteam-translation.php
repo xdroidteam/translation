@@ -1,7 +1,6 @@
 <?php
 
-return array(
-
+return [
     'route' => [
         'prefix' => 'translations',
         'middleware' => [
@@ -14,4 +13,5 @@ return array(
 
     'translation_model' => '\XdroidTeam\Translation\Translation',
 
-);
+    'safe_mode' => true
+];

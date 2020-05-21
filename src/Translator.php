@@ -41,18 +41,38 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
 
                 if(!$model->exists) {
                     $model->translation = $originalKey ?? null;
-                    $model->origin = request()->ip() ?? null;
+                    if(config('xdroidteam-translation.safe_mode', true)) {
+                        $model->origin = request()->ip() ?? null;
 
-                    if($translationModel::where(['locale' => $locale, 'group' => $group])->where('key', 'like', $item . '.%')->count() > 0) {
-                        \Log::warning('Wrong translation key given, children exist for locale ' . $locale . ' ' . $group . '.' . $item);
-                        \DebugBar::warning('Wrong translation key given, children exist for locale ' . $locale . ' ' . $group . '.' . $item);
+                        if(count($children = $translationModel::where(['locale' => $locale, 'group' => $group])->where('key', 'like', $item . '.%')->get()) > 0) {
+                            \Log::warning('Wrong translation key given, children exist for locale ' . $locale . ' ' . $group . '.' . $item);
+                            if(class_exists('DebugBar')) {
+                                \DebugBar::warning('Wrong translation key given, children exist for locale ' . $locale . ' ' . $group . '.' . $item);
+                            }
 
-                        return "Wrong key for: " . $item;
+                            return '!!!Wrong key for "' . $group . '.' . $item . '" (parent(s) "' . $group . '.' . $children->pluck('key')->implode(',' . $group . '.') . '" exists)!!!';
+                        }
+
+                        $checkKeys = [];
+                        collect(explode('.', $item))->reduce(function($parent, $child) use (&$checkKeys) {
+                            if($parent) {
+                                $checkKeys[] = $parent;
+                            }
+                            return $parent ? $parent . '.' . $child : $child;
+                        });
+
+                        if(count($parents = $translationModel::where(['locale' => $locale, 'group' => $group])->where('key', 'rlike', implode('|', $checkKeys))->get()) > 0) {
+                            \Log::warning('Wrong translation key given, parent exist for locale ' . $locale . ' ' . $group . '.' . $item);
+                            if(class_exists('DebugBar')) {
+                                \DebugBar::warning('Wrong translation key given, parent exist for locale ' . $locale . ' ' . $group . '.' . $item);
+                            }
+                            return '!!!Wrong key for "' . $group . '.' . $item . '" (parent(s) "' . $group . '.' . $parents->pluck('key')->implode(',' . $group . '.') . '" exists)!!!';
+                        }
                     }
 
                     $model->save();
                 }
-                
+
                 $trans = $model->translation ?? $originalKey ?? $key;
 
                 $transArray = array_merge(\Cache::tags('translations_' . env('APP_KEY'))->get('translations.' . $locale . '.' . $group, []), [$item => $trans]);
