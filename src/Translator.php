@@ -62,7 +62,10 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
                             return $parent ? $parent . '.' . $child : $child;
                         });
 
-                        if(count($parents = $translationModel::where(['locale' => $locale, 'group' => $group])->where('key', 'rlike', implode('|', $checkKeys))->get()) > 0) {
+                        if(
+                            count($parents = $translationModel::where(['locale' => $locale, 'group' => $group])
+                                ->whereIn('key', $checkKeys)->get()) > 0
+                        ) {
                             \Log::warning('Wrong translation key given, parent exist for locale ' . $locale . ' ' . $group . '.' . $item);
                             if(class_exists('DebugBar')) {
                                 \DebugBar::warning('Wrong translation key given, parent exist for locale ' . $locale . ' ' . $group . '.' . $item);
