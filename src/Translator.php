@@ -41,8 +41,9 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
 
                 if(!$model->exists) {
                     $model->translation = $originalKey ?? null;
+                    $model->origin = request()->ip() ?? null;
+
                     if(config('xdroidteam-translation.safe_mode', true)) {
-                        $model->origin = request()->ip() ?? null;
 
                         if(count($children = $translationModel::where(['locale' => $locale, 'group' => $group])->where('key', 'like', $item . '.%')->get()) > 0) {
                             \Log::warning('Wrong translation key given, children exist for locale ' . $locale . ' ' . $group . '.' . $item);
