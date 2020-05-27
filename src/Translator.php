@@ -41,7 +41,7 @@ public function get($key, array $replace = [], $locale = null, $fallback = true)
 
                 if(!$model->exists) {
                     $model->translation = $originalKey ?? null;
-                    $model->origin = request()->ip() ?? null;
+                    $model->origin = app('request')->ip() ?? null;
 
                     if(config('xdroidteam-translation.safe_mode', true)) {
 
